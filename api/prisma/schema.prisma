@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(uuid())
+  email    String @unique
+  password String @db.VarChar(250)
+}
+
+model Client {
+  id         String    @id @default(uuid())
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
+
+  name  String  @db.VarChar(150)
+  order Order[]
+}
+
+model Order {
+  id         String    @id @default(uuid())
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
+  status     Status
+  client_id  String
+  client     Client    @relation(fields: [client_id], references: [id])
+
+  address_id String
+  address    Address @relation(fields: [address_id], references: [id])
+}
+
+model Address {
+  id         String    @id @default(uuid())
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
+  cep        String    @db.VarChar(8)
+  street     String    @db.VarChar(250)
+
+  number       String @db.VarChar(10)
+  neighborhood String @db.VarChar(150)
+  city         String @db.VarChar(150)
+
+  state      String  @db.VarChar(2)
+  complement String? @db.VarChar(150)
+
+  Order Order[]
+}
+
+enum Status {
+  PENDING
+  DELIVERED
+  CANCELED
+  PROCESSING
+  RETURNED
+}
