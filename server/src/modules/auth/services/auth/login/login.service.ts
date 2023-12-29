@@ -3,7 +3,6 @@ import { IUserRepository } from 'src/modules/auth/database/repositories/abstract
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
 import { IUserFiltered, IValidateUserDTO } from './login.dto';
-import { UserRepository } from 'src/modules/auth/database/repositories/implementations/user.repository';
 
 @Injectable()
 export class LoginService {
