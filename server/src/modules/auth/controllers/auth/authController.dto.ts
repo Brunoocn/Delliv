@@ -10,6 +10,20 @@ export class LoginDTO {
   readonly password: string;
 }
 
+export class RegisterDTO {
+  @IsNotEmpty()
+  @IsString()
+  readonly name: string;
+
+  @IsNotEmpty()
+  @IsEmail()
+  readonly email: string;
+
+  @IsNotEmpty()
+  @IsString()
+  readonly password: string;
+}
+
 export class ILoginResponseDTO {
   token: string;
   user: {
@@ -17,4 +31,9 @@ export class ILoginResponseDTO {
     email: string;
     name: string;
   };
+}
+
+export class IRegisterResponseDTO {
+  email: string;
+  name: string;
 }

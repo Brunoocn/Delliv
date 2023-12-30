@@ -1,12 +1,3 @@
-export interface ILoginUserResponseDTO {
-  token: string;
-  user: {
-    id: string;
-    name: string;
-    email: string;
-  };
-}
-
 export interface IValidateUserDTO {
   email: string;
   password: string;
