@@ -21,9 +21,7 @@ export class LoginService {
       throw new UnauthorizedException('Email e/ou senha inválidos');
     }
 
-    const isPasswordMatch = await compare(password, userExists.password);
-
-    if (!isPasswordMatch) {
+    if (!this.validatePasswordIsMatch) {
       throw new UnauthorizedException('Email e/ou senha inválidos');
     }
 
@@ -47,6 +45,16 @@ export class LoginService {
       token,
       user: userFiltered,
     };
+  }
+
+  private validatePasswordIsMatch(password: string) {
+    const isPasswordMatch = compare(password, password);
+
+    if (!isPasswordMatch) {
+      return false;
+    }
+
+    return true;
   }
 }
 

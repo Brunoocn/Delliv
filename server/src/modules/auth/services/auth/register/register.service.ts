@@ -19,15 +19,33 @@ export class RegisterService {
       throw new Error('Email já cadastrado');
     }
 
-    const hashedPassword = await hash(password, process.env.ROUNDS_OF_HASHING);
+    if (this.validatePassword(password)) {
+      throw new Error('Senha deve ter no mínimo 6 caracteres');
+    }
+
+    const hashedPassword = await this.hashPassword(password);
 
     const user = await this.userRepository.createUser({
       name,
       email,
-      password,
+      password: hashedPassword,
     });
 
     return user;
+  }
+
+  private validatePassword(password: string) {
+    if (password.length < 6) {
+      return false;
+    }
+    
+    return true;
+  }
+
+  private async hashPassword(password: string) {
+    const hashedPassword = await hash(password, process.env.ROUNDS_OF_HASHING);
+
+    return hashedPassword;
   }
 }
 
